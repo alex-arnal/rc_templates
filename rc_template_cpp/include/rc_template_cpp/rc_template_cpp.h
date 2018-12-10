@@ -43,4 +43,9 @@ protected:
   string test_topic_pub_name_;
   ros::Publisher test_pub_;
   */
+
+  string test_topic_sub_name_;
+  ros::Subscriber test_sub_;
+
+  void testSubCb(const std_msgs::String::ConstPtr &msg);
 };
