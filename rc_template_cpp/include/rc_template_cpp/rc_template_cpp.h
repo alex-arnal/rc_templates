@@ -3,6 +3,8 @@
 #include <rcomponent/rcomponent.h>
 #include <robotnik_msgs/State.h>
 
+#include <std_msgs/String.h>
+
 class RCTemplateCpp : public rcomponent::RComponent
 {
 public:

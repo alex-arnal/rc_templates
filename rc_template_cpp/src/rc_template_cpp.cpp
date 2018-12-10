@@ -1,5 +1,4 @@
 #include <rc_template_cpp/rc_template_cpp.h>
-#include <std_msgs/String.h>
 
 RCTemplateCpp::RCTemplateCpp(ros::NodeHandle h) : RComponent(h), nh_(h), pnh_("~")
 {
