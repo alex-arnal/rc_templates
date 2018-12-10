@@ -161,3 +161,55 @@ do
 
 done
 
+printf "${YELLOW}Check if there are comments that should be deleted.\n${NC}"
+
+delete_comments() {
+  echo "$current_tag"
+  for file in $(find ../$target_package -type f | grep "\.h")
+  do
+    printf "Current target file: $file\n"
+    sed -i -e "/$current_tag/d" $file
+  done
+
+  for file in $(find ../$target_package -type f | grep "\.cpp")
+  do
+    printf "Current target file: $file\n"
+    sed -i -e "/$current_tag/d" $file
+  done
+}
+
+if [ $publisher ]
+then
+  current_tag="Test Publisher"
+  delete_comments
+fi
+
+if [ $subscriber ]
+then
+  current_tag="Test Subscriber"
+  delete_comments
+fi
+
+if [ $action_c ]
+then
+  current_tag="Test Action Client"
+  delete_comments
+fi
+
+if [ $action_s ]
+then
+  current_tag="Test Action Server"
+  delete_comments
+  fi
+
+if [ $service_c ]
+then
+  current_tag="Test Service Client"
+  delete_comments
+  fi
+
+if [ $service_s ]
+then
+  current_tag="Test Service Server"
+  delete_comments
+fi
