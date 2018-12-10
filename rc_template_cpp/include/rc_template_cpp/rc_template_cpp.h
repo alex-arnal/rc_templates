@@ -13,22 +13,22 @@ protected:
   /* RComponent stuff */
 
   //! Setups all the ROS' stuff
-  virtual int rosSetup();
+  int rosSetup();
   //! Shutdowns all the ROS' stuff
-  virtual int rosShutdown();
+  int rosShutdown();
   //! Reads data a publish several info into different topics
-  virtual void rosPublish();
+  void rosPublish();
   //! Reads params from params server
-  virtual void rosReadParams();
+  void rosReadParams();
 
   //! Actions performed on standby state
-  virtual void standbyState();
+  void standbyState();
   //! Actions performed on ready state
-  virtual void readyState();
+  void readyState();
   //! Actions performed on the emergency state
-  virtual void emergencyState();
+  void emergencyState();
   //! Actions performed on Failure state
-  virtual void failureState();
+  void failureState();
 
 protected:
   // Specific node stuff
@@ -36,4 +36,7 @@ protected:
   ros::NodeHandle nh_;
   //! Private node hanlde, to read params and publish data
   ros::NodeHandle pnh_;
+
+  string test_topic_pub_name_;
+  ros::Publisher test_pub_;
 };

@@ -1,14 +1,13 @@
 #include <rc_template_cpp/rc_template_cpp.h>
+#include <std_msgs/String.h>
 
 RCTemplateCpp::RCTemplateCpp(ros::NodeHandle h) : RComponent(h), nh_(h), pnh_("~")
 {
-    component_name.assign(pnh_.getNamespace());
     rosReadParams();
 }
 
 RCTemplateCpp::~RCTemplateCpp()
 {
-    // TODO: create an example of publisher
     // TODO: create an example of subscriber
     // TODO: create an example of action client
     // TODO: create an example of action server
@@ -18,7 +17,12 @@ RCTemplateCpp::~RCTemplateCpp()
 
 int RCTemplateCpp::rosSetup()
 {
-    RComponent::rosSetup();
+    if (RComponent::rosSetup() == rcomponent::OK)
+    {
+        /* Test Publisher
+        test_pub_ = pnh_.advertise<std_msgs::String>(test_topic_pub_name_, 1);
+        */
+    }
 }
 
 int RCTemplateCpp::rosShutdown()
@@ -33,7 +37,10 @@ void RCTemplateCpp::rosPublish()
 
 void RCTemplateCpp::rosReadParams()
 {
-    // RComponent::rosReadParams();
+    /* Test Publisher
+    std::string default_test_topic_pub_name = "test_topic_name";
+    readParam(pnh_, "test_topic_pub_name", test_topic_pub_name_, default_test_topic_pub_name, true);
+    */
 }
 
 void RCTemplateCpp::standbyState()
@@ -42,6 +49,12 @@ void RCTemplateCpp::standbyState()
 }
 void RCTemplateCpp::readyState()
 {
+    /* Test Publisher
+    std_msgs::String test_pub_msg;
+    test_pub_msg.data = "Test";
+
+    test_pub_.publish(test_pub_msg);
+    */
 }
 
 void RCTemplateCpp::emergencyState()
