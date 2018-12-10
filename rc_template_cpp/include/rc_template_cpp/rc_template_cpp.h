@@ -37,6 +37,8 @@ protected:
   //! Private node hanlde, to read params and publish data
   ros::NodeHandle pnh_;
 
+  /* Test Publisher
   string test_topic_pub_name_;
   ros::Publisher test_pub_;
+  */
 };
