@@ -21,8 +21,10 @@ int RCTemplateCpp::rosSetup()
         test_pub_ = pnh_.advertise<std_msgs::String>(test_topic_pub_name_, 1);
         */
 
+        /* Test Subscriber
         test_sub_ = pnh_.subscribe<std_msgs::String>(test_topic_sub_name_, 1,
                                                      &RCTemplateCpp::testSubCb, this);
+        */
     }
 }
 
@@ -43,8 +45,10 @@ void RCTemplateCpp::rosReadParams()
     readParam(pnh_, "test_topic_pub_name", test_topic_pub_name_, default_test_topic_pub_name, true);
     */
 
+    /* Test Subscriber   
     std::string default_test_topic_sub_name = "test_topic_name";
     readParam(pnh_, "test_topic_sub_name", test_topic_sub_name_, default_test_topic_sub_name, true);
+    */
 }
 
 void RCTemplateCpp::standbyState()
@@ -69,7 +73,9 @@ void RCTemplateCpp::failureState()
 {
 }
 
+/* Test Subscriber
 void RCTemplateCpp::testSubCb(const std_msgs::String::ConstPtr &msg)
 {
     RCOMPONENT_INFO("This should be print when a msg is received");
 }
+*/
