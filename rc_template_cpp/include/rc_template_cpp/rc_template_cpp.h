@@ -3,6 +3,8 @@
 #include <rcomponent/rcomponent.h>
 #include <robotnik_msgs/State.h>
 
+#include <std_msgs/String.h>
+
 class RCTemplateCpp : public rcomponent::RComponent
 {
 public:
@@ -40,5 +42,14 @@ protected:
   /* Test Publisher
   string test_topic_pub_name_;
   ros::Publisher test_pub_;
+  */
+
+  /* Test Subscriber
+  string test_topic_sub_name_;
+  ros::Subscriber test_sub_;
+  */
+
+  /* Test Subscriber
+  void testSubCb(const std_msgs::String::ConstPtr &msg);
   */
 };
