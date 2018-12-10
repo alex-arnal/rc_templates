@@ -1,21 +1,114 @@
 #!/usr/bin/env bash
 
+# TODO: move usage functio to other file
 usage() { 
   printf "Usage: $0 [options] new_package\n"
   printf "\toptions:\n"
-  printf "\t-v\tVerbose\n"
+  printf "\t-v\tVerbose.\n"
+  echo
+  printf "\t-P\tUncomment publisher in the result package.\n"
+  echo
+  printf "\t-S\tUncomment subscriber in the result package.\n"
+  echo
+  printf "\t-s\tUncomment service server in the result package.\n"
+  printf "\t\tThis option can be combined with other options:\n"
+  printf "\t\t-c: to uncomment the service client and the server.\n"
+  printf "\t\t-C: to uncomment only the service client.\n"
+  echo
+  printf "\t-a\tUncomment action server in the result package.\n"
+  printf "\t\tThis option can be combined with other options:\n"
+  printf "\t\t-c: to uncomment the action client and the server.\n"
+  printf "\t\t-C: to uncomment only the action client.\n"
+  echo
+  printf "\t-c\tUncomment the clients in adition to the servers selected in the result package.\n"
+  printf "\t\tThis option HAS to be combined with other options:\n"
+  printf "\t\t-a: to uncomment the action client and the server.\n"
+  printf "\t\t-s: to uncomment the service client and the server.\n"
+  echo
+  printf "\t-c\tUncomment only clients in the result package.\n"
+  printf "\t\tThis option HAS to be combined with other options:\n"
+  printf "\t\t-a: to uncomment only the action client.\n"
+  printf "\t\t-s: to uncomment only the service client.\n"
+  echo
+  printf "\t-A\tUncomment all (pub, sub, clients and servers).\n"
   exit 1 
 }
 
 verbose=0
 
-while getopts "h?v" opt; do
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[1;31m'
+NC='\033[0m'
+
+while getopts "h?vPSsacCA" opt; do
     case "$opt" in
     h|\?)
         usage
         exit 0
         ;;
+
     v)  verbose=1
+        ;;
+
+    P)  publisher=true
+        ;;
+
+    S)  subscriber=true;
+        ;;
+    
+    s)  service_s=true;
+        ;;
+
+    a)  action_s=true;
+        ;;
+
+    c)  
+        if [ ! $service_s ] && [ ! $action_s ]
+        then
+          printf "${RED}-c option has to be used with -a or -s option${NC}\n"
+          usage
+          exit 0
+        fi
+
+        if [ $service_s ]
+        then
+          service_c=true
+        fi
+
+        if [ $action_s ]
+        then
+          action_c=true
+        fi
+        ;;
+
+    C)  
+        if [ ! $service_s ] && [ ! $action_s ]
+        then
+          printf "${RED}-C option has to be used with -a or -s option${NC}\n"
+          usage
+          exit 0
+        fi
+
+        if [ $service_s ]
+        then
+          service_s=false
+          service_c=true
+        fi
+
+        if [ $action_s ]
+        then
+          action_s=false
+          action_c=true
+        fi
+        ;;
+
+    A)  publisher=true
+        subscriber=true
+        action_c=true
+        action_s=true
+        service_c=true
+        service_s=true
         ;;
     esac
 done
@@ -23,7 +116,6 @@ done
 # Getting the name of the new package
 index="$((OPTIND))"
 target_package="${!index}"
-target_class=$(echo $target_package | sed -r 's/(^|_)([a-z]|[0-9])/\U\2/g')
 
 if [ "$target_package" == "" ]
 then
@@ -31,9 +123,8 @@ then
   usage
   exit 0
 fi
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+
+target_class=$(echo $target_package | sed -r 's/(^|_)([a-z]|[0-9])/\U\2/g')
 
 printf "${YELLOW}Creating new package: ${target_package}.\n${NC}"
 # For any file found in the package
