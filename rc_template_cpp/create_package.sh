@@ -25,6 +25,12 @@ index="$((OPTIND))"
 target_package="${!index}"
 target_class=$(echo $target_package | sed -r 's/(^|_)([a-z]|[0-9])/\U\2/g')
 
+if [ "$target_package" == "" ]
+then
+  printf "${RED}The name of the new_package was not declared.${NC}\n"
+  usage
+  exit 0
+fi
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
